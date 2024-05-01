@@ -1,0 +1,89 @@
+import React from 'react'
+
+class NewBlogForm extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      title: '',
+      image: '',
+      author: '',
+      content: '',
+    }
+  }
+
+  handleChange = (event) => {
+    const { name, value } = event.target
+    this.setState({ [name]: value })
+  }
+
+  handleSubmit = (event) => {
+    event.preventDefault()
+    const { title, image, author, content } = this.state
+    // Pass the new blog data to the parent component
+    this.props.onSubmit({ title, image, author, content })
+    // Clear the form
+    this.setState({ title: '', image: '', author: '', content: '' })
+  }
+
+  render() {
+    return (
+      <div
+        className={`new-blog-form ${this.props.showNewBlogForm ? 'show' : ''}`}
+      >
+        <h2>Create a New Blog</h2>
+        <form onSubmit={this.handleSubmit}>
+          <div>
+            <label htmlFor="title">Title:</label>
+            <input
+              type="text"
+              id="title"
+              name="title"
+              value={this.state.title}
+              onChange={this.handleChange}
+              required
+            />
+          </div>
+
+          <div>
+            <label htmlFor="image">Image URL:</label>
+            <input
+              type="url"
+              id="image"
+              name="image"
+              value={this.state.image}
+              onChange={this.handleChange}
+              required
+            />
+          </div>
+
+          <div>
+            <label htmlFor="author">Author:</label>
+            <input
+              type="text"
+              id="author"
+              name="author"
+              value={this.state.author}
+              onChange={this.handleChange}
+              required
+            />
+          </div>
+
+          <div>
+            <label htmlFor="content">Content:</label>
+            <textarea
+              id="content"
+              name="content"
+              value={this.state.content}
+              onChange={this.handleChange}
+              required
+            ></textarea>
+          </div>
+
+          <button type="submit">Create Blog</button>
+        </form>
+      </div>
+    )
+  }
+}
+
+export default NewBlogForm
